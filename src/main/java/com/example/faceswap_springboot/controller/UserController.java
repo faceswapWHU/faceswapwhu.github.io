@@ -8,8 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.example.faceswap_springboot.service.UserService;
 
+import java.util.Collections;
+
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -27,9 +30,9 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestBody UserRegistrationDto userDto) {
         try {
             userService.registerUser(userDto.getUsername(), userDto.getEmail(), userDto.getPassword());
-            return ResponseEntity.ok("User registered successfully");
+            return ResponseEntity.ok(Collections.singletonMap("message", "User registered in successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 
@@ -38,9 +41,9 @@ public class UserController {
         try {
             userService.loginUser(userLoginDto.getUsernameOrEmail(), userLoginDto.getPassword());
             System.out.println("login user: " + SecurityContextHolder.getContext().getAuthentication().getName());
-            return ResponseEntity.ok("User logged in successfully");
+            return ResponseEntity.ok(Collections.singletonMap("message", "User logged in successfully"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 }
