@@ -13,6 +13,7 @@ const { apiBaseUrl } = useApi();
 
 
 const username = ref("")
+const email = ref("")
 const password = ref("")
 const repassword = ref("")
 
@@ -35,7 +36,7 @@ async function onReg(data: any) {
         return
     }
     try {
-        const regresponse = await fetch(apiBaseUrl.value + 'auth/register', {
+        const regresponse = await fetch(apiBaseUrl.value + 'api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,6 +44,7 @@ async function onReg(data: any) {
             },
             body: JSON.stringify({
                 username: username.value,
+                email: email.value,
                 password: password.value
             })
         });
@@ -171,8 +173,16 @@ const checkPass = () => {
                         <label for="username" class="sr-only">用户名</label>
                         <input id="username" name="username" type="text" v-model="username" autocomplete="username"
                             required pattern="[a-zA-Z0-9]+"
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                             placeholder="用户名" />
+                    </div>
+                    <div>
+                        <!-- <el-tooltip :content="passwordError" placement="right" v-show="uE"> -->
+                        <label for="email" class="sr-only">电子邮箱</label>
+                        <input id="email" name="email" type="text" v-model="email" autocomplete="email"
+                            
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            placeholder="电子邮箱" />
                     </div>
                 </div>
                 <div class="rounded-md shadow-sm -space-y-px">

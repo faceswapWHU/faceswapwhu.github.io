@@ -27,14 +27,15 @@ const login_in = async (credentials: any) => {
 
 const login = async () => {
   try {
-    const response = await fetch(apiBaseUrl.value + 'auth/login', {
+    const response = await fetch(apiBaseUrl.value + 'api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: username.value, password: password.value }),
+      body: JSON.stringify({ usernameOrEmail: username.value, password: password.value }),
     });
     const result = await response.json();
+    console.log(result);
     if (response.ok) {
       //   store.setToken(result.access_token);
       ElMessage({
@@ -48,6 +49,7 @@ const login = async () => {
       throw new Error(result.msg);
     }
   } catch (error) {
+    console.error('Login error:', error);
     ElMessage.error('用户不存在或者密码错误！');
   }
 };

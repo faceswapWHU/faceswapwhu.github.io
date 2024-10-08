@@ -1,7 +1,7 @@
 // composables/useApi.ts
 import {ref} from 'vue';
 export const useApi = () => {
-  const apiBaseUrl = ref("http://127.0.0.1:5000/");
+  const apiBaseUrl = ref("http://localhost:8080/");
 
   return {
     apiBaseUrl
