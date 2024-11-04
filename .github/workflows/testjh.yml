@@ -8,14 +8,20 @@ on:
 jobs:
   npm-build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: check out branch jh
-        uses: actions/checkout@v4
+      - name: Check out branch jh
+        uses: actions/checkout@v2
         with:
           ref: jh
 
-      - name: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.11.0'
+
+      - name: Install dependencies
         run: |
           cd frontend
-          npm install
-    
+          npm ci
+
