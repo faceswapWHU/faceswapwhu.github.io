@@ -1,0 +1,26 @@
+name: test build in jh
+
+on:
+  push:
+    branches:
+      - jh
+  workflow_dispatch:
+
+jobs:
+  npm-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch jh
+        uses: actions/checkout@v2
+        with:
+          ref: jh
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.11.0'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
