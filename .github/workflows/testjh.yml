@@ -4,12 +4,11 @@ on:
   push:
     branches:
       - jh
-   workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   npm-build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out branch jh
         uses: actions/checkout@v2
@@ -25,4 +24,3 @@ jobs:
         run: |
           cd frontend
           npm ci
-
