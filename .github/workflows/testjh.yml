@@ -1,0 +1,21 @@
+name: test build in jh
+
+on:
+  push:
+    branches:
+      - jh
+
+jobs:
+  npm-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out branch jh
+        uses: actions/checkout@v4
+        with:
+          ref: jh
+
+      - name: npm install
+        run: |
+          cd frontend
+          npm install
+    
