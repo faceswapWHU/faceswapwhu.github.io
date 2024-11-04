@@ -10,6 +10,7 @@ const authStore = useAuthStore();
 const Ref1 = ref<HTMLElement>()
 const Ref2 = ref<HTMLElement>()
 const Ref3 = ref<ButtonInstance>()
+const RefExchange = ref<ButtonInstance>()
 const open = ref(false)
 const Ref4 = ref<HTMLElement>()
 const Ref5 = ref<HTMLElement>()
@@ -99,6 +100,13 @@ function selectImage2() {
     if (fileInput) {
         fileInput.click();
     }
+}
+
+function swapImages() {
+    // 互换 image1 和 image2
+    const temp = image1.value;
+    image1.value = image2.value;
+    image2.value = temp;
 }
 
 async function startFaceSwap() {
@@ -293,21 +301,27 @@ async function uploadImage3() {
     }
 }
 </script>
+
 <template>
     <LandingContainer>
-        <LandingSectionhead>
+        <!-- <LandingSectionhead>
             <template v-slot:title>尝试换脸</template>
             <template v-slot:desc>{{ swapWhat ? hero2 : hero1 }} </template>
-        </LandingSectionhead>
+        </LandingSectionhead> -->
         <div class="content-center w-full" style="text-align: center;">
+            <el-button v-model="swapWhat" @click="swapWhat = false" type="primary">图片换脸</el-button>
+            <el-button v-model="swapWhat" @click="swapWhat = true" type="primary">视频换脸</el-button>
+        </div>
+
+        <!-- <div class="content-center w-full" style="text-align: center;">
             <el-switch v-model="swapWhat" class="ml-2"
                 style="--el-switch-on-color: #000000; --el-switch-off-color: #babab1; " width="80px" size="large" />
-        </div>
+        </div> -->
         <div v-if="swapWhat">
 
             <div class="button-container">
                 <el-button @click="open1 = true" class="start-button">
-                    怎么开始？
+                    如何开始？
                 </el-button>
             </div>
             <el-tour v-model="open1">
@@ -379,10 +393,10 @@ async function uploadImage3() {
                 </div>
             </div>
         </div>
-        <div v-else>
-            <div class="button-container">
+        <div v-if="!swapWhat">
+            <div class="button-container"> 
                 <el-button @click="open = true" class="start-button">
-                    怎么开始？
+                    如何开始？
                 </el-button>
             </div>
             <el-tour v-model="open">
@@ -390,48 +404,61 @@ async function uploadImage3() {
                     :target="Ref1" />
                 <el-tour-step title="上传目的图片" description="点击此处上传或更改目的图片（目的图片是提供面部的图片）" placement="right"
                     :target="Ref2" />
+                <el-tour-step title="互换图片" description="点击这里以互换源图片和目的图片。" placement="top" :target="RefExchange" />
                 <el-tour-step title="开始转换" description="点击按钮开始转换！" placement="top" :target="Ref3?.$el" />
             </el-tour>
 
             <!-- 图片上传展示块容器 -->
-            <div class="flex gap-20 items-center mt-8 ml-12">
+            <div class="flex justify-around items-center w-full ">
                 <!-- 图片上传展示块 1 -->
-                <div class="image-upload-block w-1/5 hover:scale-110" ref="Ref1">
-                    <div class="image-preview" :class="{ 'empty-preview': !image1 }" @click="selectImage(1)">
-                        <img v-if="image1" :src="image1" alt="Image 1" />
+                <div class="image-upload-block hover:scale-105 " ref="Ref1">
+                    <div>
+                        <div class="image-preview" :class="{ 'empty-preview': !image1 }" @click="selectImage(1)">
+                            <img v-if="image1" :src="image1" alt="Image 1" />
+                        </div>
+                        <input type="file" @change="onImageUpload($event, 1)" accept="image/*" class="upload-button" />
                     </div>
-                    <input type="file" @change="onImageUpload($event, 1)" accept="image/*" class="upload-button" />
                 </div>
-                <el-icon style="font-size: 50px;">
+                <!-- <el-icon style="font-size: 50px;">
                     <Plus />
-                </el-icon>
+                </el-icon> -->
+                <!-- 互换按钮 -->
+                <button @click="swapImages" class="flex items-center justify-center border-2 rounded-lg p-2 mx-4" ref="RefExchange">
+                     <img src="public\exchange.png" alt="交换" class="icon-size">
+                </button>
                 <!-- 图片上传展示块 2 -->
-                <div class="image-upload-block w-1/5 hover:scale-110" ref="Ref2">
-                    <div class="image-preview" :class="{ 'empty-preview': !image2 }" @click="selectImage(2)">
-                        <img v-if="image2" :src="image2" alt="Image 2" />
+                <div class="image-upload-block hover:scale-105" ref="Ref2">
+                    <div>
+                        <div class="image-preview" :class="{ 'empty-preview': !image2 }" @click="selectImage(2)">
+                            <img v-if="image2" :src="image2" alt="Image 2" />
+                        </div>
+                        <input type="file" @change="onImageUpload($event, 2)" accept="image/*" class="upload-button" />
                     </div>
-                    <input type="file" @change="onImageUpload($event, 2)" accept="image/*" class="upload-button" />
                 </div>
-                <el-icon style="font-size: 50px;">
+                <!-- <el-icon style="font-size: 50px;">
                     <Right />
-                </el-icon>
-                <landingImagePlaceHolder :imageSrc="resultImage" />
-                <div class="flex flex-col w-8">
+                </el-icon> -->
+                <el-tooltip class="box-item" effect="dark" :content="image1 && image2 ? '点击换脸！' : '请先上传两张照片'"
+                    placement="bottom">
+                    <el-button @click="startFaceSwap" :disabled="!image1 || !image2"
+                        class="start-button hover:scale-105" size="large" ref="Ref3">换脸</el-button>
+                </el-tooltip>
+                <div class="image-upload-block hover:scale-105">
+                    <landingImagePlaceHolder :imageSrc="resultImage" />
                     <div class="action-buttons">
                         <button @click="shareResult" class="border-2 rounded-lg mb-4">分享</button>
                         <button @click="downloadResult" class="border-2 rounded-lg">下载</button>
                     </div>
                 </div>
-
             </div>
 
             <!-- 开始转换按钮 -->
             <div class="button-container">
-                <el-tooltip class="box-item" effect="dark" :content="image1 && image2 ? '点击换脸！' : '请先上传两张照片'"
+                <!-- <el-tooltip class="box-item" effect="dark" :content="image1 && image2 ? '点击换脸！' : '请先上传两张照片'"
                     placement="bottom">
                     <el-button @click="startFaceSwap" :disabled="!image1 || !image2"
                         class="start-button hover:scale-110" size="large" ref="Ref3">开始换脸</el-button>
-                </el-tooltip>
+                </el-tooltip> -->
 
                 <el-popover :width="300"
                     popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
@@ -448,7 +475,6 @@ async function uploadImage3() {
                         </div>
                     </template>
                 </el-popover>
-
             </div>
         </div>
         <el-divider />
@@ -456,6 +482,16 @@ async function uploadImage3() {
 </template>
 
 <style>
+.button-size {
+    width: 100px; /* 统一宽度 */
+    height: 50px; /* 统一高度 */
+    border-radius: 8px; /* 圆角 */
+}
+
+.icon-size {
+    width: 24px; /* 设置图标大小 */
+    height: 24px; /* 设置图标大小 */
+}
 .gradient-button {
     padding: 10px 20px;
     font-size: 1.2rem;
@@ -484,6 +520,8 @@ async function uploadImage3() {
 
 .image-upload-block {
     position: relative;
+    width: 30%;
+    transition: transform 0.3s;
 }
 
 .video-upload {
