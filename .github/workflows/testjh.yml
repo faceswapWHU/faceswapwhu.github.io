@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - jh
+   workflow_dispatch:
 
 jobs:
   npm-build:
