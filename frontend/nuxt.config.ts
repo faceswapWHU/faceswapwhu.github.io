@@ -2,7 +2,9 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
-
+  app: {
+    baseURL: '/faceswap-repository/'  // 设置基础路径
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -28,5 +30,5 @@ export default defineNuxtConfig({
     },
   },
   modules: ["nuxt-icon","@nuxt/ui","@element-plus/nuxt","@pinia/nuxt"],
-  compatibilityDate: "2024-07-10",
+  compatibilityDate: "2024-11-01",
 });
