@@ -6,6 +6,9 @@ on:
       - jh
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   npm-build:
     runs-on: ubuntu-latest
@@ -29,6 +32,7 @@ jobs:
         run: | 
           cd frontend
           npm run generate
+          pwd
 
       - name: 部署至github page
         uses: peaceiris/actions-gh-pages@v3
