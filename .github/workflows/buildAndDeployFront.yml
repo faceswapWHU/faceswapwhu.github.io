@@ -1,4 +1,4 @@
-name: test build in jh
+name: build and deploy frontend
 
 on:
   push:
