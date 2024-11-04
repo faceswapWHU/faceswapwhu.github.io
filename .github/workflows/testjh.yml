@@ -29,7 +29,7 @@ jobs:
         run: npm run build
 
       - name: 保存artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: nuxt-build
           path: .nuxt/dist  # 将生成的静态文件保存为 artifact
