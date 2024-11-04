@@ -10,17 +10,26 @@ jobs:
   npm-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out branch jh
+      - name: Check out 分支 jh
         uses: actions/checkout@v2
         with:
           ref: jh
 
-      - name: Set up Node.js
+      - name: 设置 Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '22.11.0'
 
-      - name: Install dependencies
+      - name: 安装npm依赖
         run: |
           cd frontend
-          npm ci
+          npm install
+
+      - name: 构建Nuxt app
+        run: npm run build
+
+      - name: 保存artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: nuxt-build
+          path: .nuxt/dist  # 将生成的静态文件保存为 artifact

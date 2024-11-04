@@ -27,6 +27,7 @@ const validateEmail = async (email:string) => {
 
 const newEmail = ref("");
 const modEmail = async () => {
+    console.log("invoke the mod email func");
     const isValid = await validateEmail(newEmail.value);
     if (!isValid) {
         return;
@@ -42,6 +43,7 @@ const modEmail = async () => {
             body: JSON.stringify({ email: newEmail.value }),
         });
         const result = await response.json();
+        console.log(result);
         if (response.ok) {
             authStore.updateEmail(newEmail.value);
             ElMessage({
