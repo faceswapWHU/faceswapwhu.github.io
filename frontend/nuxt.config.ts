@@ -2,9 +2,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
-  app: {
-    baseURL: '/faceswap-repository/'  // 设置基础路径
-  },
   postcss: {
     plugins: {
       tailwindcss: {},
