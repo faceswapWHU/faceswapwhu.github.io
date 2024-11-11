@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout 代码
       uses: actions/checkout@v2
 
-    - name: Setup SSH
+    - name: SSH设置
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
@@ -28,15 +28,22 @@ jobs:
         # 将服务器信息添加到known_hosts
         echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
 
-    - name: Deploy to Server
+    - name: 连接至ssh,执行部署任务
       env:
         SSH_HOST: ${{ secrets.REMOTE_IP }}
         SSH_USER: ${{ secrets.REMOTE_USER }}
       run: |
         ssh $SSH_USER@$SSH_HOST 'bash -s' << 'EOF'
           # 在服务器上执行的命令
+          # 拉取最新代码
           cd /root/faceswapwhu.github.io/
           git pull origin jh
-          # 或者运行其他部署命令，如重启服务等
+          # 前端重新构建
+          cd frontend/
+          npm generate
+          # 重启nginx,gunicorn
+          nginx -s reload
+          /etc/init.d/supervisor restart
+          # 
         EOF
-
+      
