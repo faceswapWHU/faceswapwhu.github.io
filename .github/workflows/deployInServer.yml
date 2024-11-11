@@ -40,7 +40,7 @@ jobs:
           git pull origin jh
           # 前端重新构建
           cd frontend/
-          npm generate
+          npm run generate
           # 重启nginx,gunicorn
           nginx -s reload
           /etc/init.d/supervisor restart
