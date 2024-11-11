@@ -1,27 +1,42 @@
-- name: Setup SSH
-  env:
-    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
-    SSH_HOST: ${{ secrets.REMOTE_IP }}
-    SSH_USER: ${{ secrets.REMOTE_USER }}
-  run: | 
-    # 创建SSH目录
-    mkdir -p ~/.ssh
-    # 写入私钥内容，并设置权限 
-    echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    chmod 600 ~/.ssh/id_rsa
-    # 将服务器信息添加到known_hosts
-    echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+name: Deploy to Server
 
-- name: Deploy to Server
-  env:
-    SSH_HOST: ${{ secrets.REMOTE_IP }}
-    SSH_USER: ${{ secrets.REMOTE_USER }}
-  run: |
-    ssh $SSH_USER@$SSH_HOST 'bash -s' << 'EOF'
-      # 在服务器上执行的命令
-      cd /root/faceswapwhu.github.io/
-      git pull origin jh
-      # 或者运行其他部署命令，如重启服务等
-    EOF
+on:
+  push:
+    branches:
+      - main  # 设置触发分支
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+        SSH_HOST: ${{ secrets.REMOTE_IP }}
+        SSH_USER: ${{ secrets.REMOTE_USER }}
+      run: | 
+    	# 创建SSH目录
+    	mkdir -p ~/.ssh
+    	# 写入私钥内容，并设置权限 
+    	echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    	chmod 600 ~/.ssh/id_rsa
+    	# 将服务器信息添加到known_hosts
+    	echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+    - name: Deploy to Server
+  	env:
+    	SSH_HOST: ${{ secrets.REMOTE_IP }}
+    	SSH_USER: ${{ secrets.REMOTE_USER }}
+      run: |
+    	ssh $SSH_USER@$SSH_HOST 'bash -s' << 'EOF'
+      	# 在服务器上执行的命令
+      	cd /root/faceswapwhu.github.io/
+      	git pull origin jh
+      	# 或者运行其他部署命令，如重启服务等
+    	EOF
 
