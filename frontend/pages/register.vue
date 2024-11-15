@@ -13,6 +13,7 @@ const { apiBaseUrl } = useApi();
 
 
 const username = ref("")
+const email = ref("")
 const password = ref("")
 const repassword = ref("")
 
@@ -35,7 +36,7 @@ async function onReg(data: any) {
         return
     }
     try {
-        const regresponse = await fetch(apiBaseUrl.value + 'auth/register', {
+        const regresponse = await fetch(apiBaseUrl.value + 'api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,6 +44,7 @@ async function onReg(data: any) {
             },
             body: JSON.stringify({
                 username: username.value,
+                email: email.value,
                 password: password.value
             })
         });
@@ -149,61 +151,246 @@ const checkPass = () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 ">
-        <div class="max-w-md w-full space-y-8 border border-gray-300 p-6">
-            <div class="flex items-center justify-between">
-                <div class="text-sm">
-                    <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
-                        返回登录
-                    </a>
-                </div>
+    <div class="bgc">
+        <div class="sbgc">
+        <div class="loginBox">
+          <div class="title">Register</div>
+          <form @submit.prevent="onReg">
+            <div class="item">
+              <input type="text" v-model="username" pattern="[a-zA-Z0-9]+" required />
+              <label for="">Username</label>
             </div>
-            <div></div>
-            <div>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    注册
-                </h2>
+            <div class="item">
+                <input type="text" v-model="email" required />
+                <label for="">Email</label>
             </div>
-            <form class="mt-8 space-y-6" @submit.prevent="onReg">
-                <div class="rounded-md shadow-sm -space-y-px">
-                    <div>
-                        <!-- <el-tooltip :content="passwordError" placement="right" v-show="uE"> -->
-                        <label for="username" class="sr-only">用户名</label>
-                        <input id="username" name="username" type="text" v-model="username" autocomplete="username"
-                            required pattern="[a-zA-Z0-9]+"
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="用户名" />
-                    </div>
-                </div>
-                <div class="rounded-md shadow-sm -space-y-px">
-                    <div>
-                        <!-- <el-tooltip :content="passwordError" placement="right" v-show="uP"> -->
+            <div style="height: 35px;">
 
-                        <label for="password" class="sr-only">密码</label>
-                        <input id="password" name="password" type="password" v-model="password"
-                            autocomplete="current-password" required
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="密码" />
-                    </div>
-                    <div>
-                        <label for="password" class="sr-only">重复密码</label>
-                        <input id="repassword" name="repassword" type="password" v-model="repassword"
-                            autocomplete="current-password" required
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="重复密码" />
-                    </div>
-                </div>
-
-
-
-                <div class="mt-6 flex justify-between">
-                    <button type="submit"
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        注册
-                    </button>
-
-                </div>
-            </form>
+            </div>
+            <div class="item">
+              <input type="password" v-model="password" required />
+              <label for="">Password</label>
+            </div>
+            <div class="item">
+                <input type="password" v-model="repassword" required />
+                <label for="">Confirm</label>
+            </div>
+            <div style="display: flex; justify-content:center;">
+            <button class="btn" type="submit">Sign Up
+            
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            </div>
+          </form>
         </div>
-    </div>
+        <div class="links">
+          <div>
+           <a href="/" class="link">home</a>
+          </div>
+          <div>
+           <a href="/login" class="link">sign in</a>
+          </div>
+        </div>
+        </div>
+      </div>
 </template>
+
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+input,
+button {
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.bgc {
+  height: 100vh;
+  background-color: #edecec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #03e9f4;
+  flex-direction: column;
+}
+.sbgc{
+    height: 80%;
+    width: 60%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.links{
+  margin-top: 50px;
+  margin-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+}
+.link{
+  color: #070636;
+  padding: 5px;
+}
+.link:hover {
+  border-radius: 5px;
+  color: #ffffff;
+
+  background: #0b1624;
+  box-shadow: 0 0 5px 0 #070636,
+              0 0 5px 0 #070636,
+              0 0 5px 0 #070636,
+              0 0 5px 0 #070636;
+
+  transition: all 0.5s linear;
+}
+
+.loginBox {
+  width: 400px;
+  height: 399px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 15px 25px 0 rgba(0, 0, 0, .6);
+  padding: 40px;
+  box-sizing: border-box;
+  margin-top: 70px;
+}
+
+.title {
+  text-align: center;
+  color: #0b1624;
+  margin-bottom: 15px;
+  font-family: fantasy;
+  font-size:30px;
+}
+
+.item {
+  height: 45px;
+  border-bottom: 1px solid #070636;
+  margin-bottom: 0px;
+  position: relative;
+}
+
+.item input {
+  width: 100%;
+  height: 100%;
+  color: #070636;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
+.item input:focus + label,
+.item input:valid + label {
+  top: 0px;
+  font-size: 12px; /* 修改为适合的字体大小 */
+}
+
+.item label {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  transition: all 0.5s linear;
+  color: #0b1624;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin-top: 30px;
+  color: #0b1624;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.btn:hover {
+  border-radius: 5px;
+  color: #fff;
+  background: #070636;
+  box-shadow: 0 0 5px 0 #070636,
+              0 0 25px 0 #070636,
+              0 0 25px 0 #070636,
+              0 0 25px 0 #070636;
+  transition: all 0.7s linear;
+}
+
+.btn > span {
+  position: absolute;
+}
+
+.btn > span:nth-child(1) {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(left, transparent, #03e9f4);
+  left: -100%;
+  top: 0px;
+  animation: line1 1s linear infinite;
+}
+
+@keyframes line1 {
+  50%, 100% {
+    left: 100%;
+  }
+}
+
+.btn > span:nth-child(2) {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(top, transparent, #03e9f4);
+  right: 0px;
+  top: -100%;
+  animation: line2 1s 0.25s linear infinite;
+}
+
+@keyframes line2 {
+  50%, 100% {
+    top: 100%;
+  }
+}
+
+.btn > span:nth-child(3) {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(left, #03e9f4, transparent);
+  left: 100%;
+  bottom: 0px;
+  animation: line3 1s 0.75s linear infinite;
+}
+
+@keyframes line3 {
+  50%, 100% {
+    left: -100%;
+  }
+}
+
+.btn > span:nth-child(4) {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(top, transparent, #03e9f4);
+  left: 0px;
+  top: 100%;
+  animation: line4 1s 1s linear infinite;
+}
+
+@keyframes line4 {
+  50%, 100% {
+    top: -100%;
+  }
+}
+
+</style>

@@ -5,6 +5,11 @@ import { Right, Plus } from '@element-plus/icons-vue'
 import { useApi } from '~/composables/useApi';
 const { apiBaseUrl } = useApi();
 import { useAuthStore } from '~/composables/auth';
+
+import TwoImgCompare from "@/components/landing/integrate.vue";
+const bottomImg = ref(new URL("@/assets/img/eg_old.jpg", import.meta.url).href); // 底图
+const upperImg = ref(new URL("@/assets/img/eg_new.jpg", import.meta.url).href); // 上层图
+
 const authStore = useAuthStore();
 
 const Ref1 = ref<HTMLElement>()
@@ -21,6 +26,8 @@ const upVideo = ref(true);
 const image1 = ref("");
 const image2 = ref("");
 const resultImage = ref("");
+
+const isFaceSwapped = ref(true); // 新增的状态变量
 
 const images = ref([
     { src: 'p1.png', alt: 'Image 1' },
@@ -133,6 +140,7 @@ async function startFaceSwap() {
             })
         } else {
             resultImage.value = data.image;
+            isFaceSwapped.value = false; // 换脸成功后设置为 true
         }
     } catch (error) {
         console.error('Failed to start face swap:', error);
@@ -295,6 +303,7 @@ async function uploadImage3() {
 </script>
 <template>
     <LandingContainer>
+        <div class='bgc'>
         <LandingSectionhead>
             <template v-slot:title>尝试换脸</template>
             <template v-slot:desc>{{ swapWhat ? hero2 : hero1 }} </template>
@@ -303,6 +312,7 @@ async function uploadImage3() {
             <el-switch v-model="swapWhat" class="ml-2"
                 style="--el-switch-on-color: #000000; --el-switch-off-color: #babab1; " width="80px" size="large" />
         </div>
+
         <div v-if="swapWhat">
 
             <div class="button-container">
@@ -310,6 +320,7 @@ async function uploadImage3() {
                     怎么开始？
                 </el-button>
             </div>
+            
             <el-tour v-model="open1">
                 <el-tour-step title="选择视频" description="点击此处选择或更改视频" placement="left" :target="Ref4" />
                 <el-tour-step title="上传视频" description="点击按钮上传视频！" placement="top" :target="Ref7?.$el" />
@@ -415,8 +426,15 @@ async function uploadImage3() {
                 <el-icon style="font-size: 50px;">
                     <Right />
                 </el-icon>
-                <landingImagePlaceHolder :imageSrc="resultImage" />
-                <div class="flex flex-col w-8">
+                <!-- <landingImagePlaceHolder :imageSrc="resultImage" /> -->
+                 <div v-if ="isFaceSwapped && !image2 ">
+                    <TwoImgCompare :bottom-img="bottomImg" bottom-label="原图" :upper-img="upperImg" upper-label="结果图"></TwoImgCompare>
+                </div>
+                <div v-else>
+                    <TwoImgCompare :bottom-img="image2" bottom-label="原图" :upper-img="resultImage" upper-label="结果图"></TwoImgCompare>
+                </div>
+                <!-- <landingImagePlaceHolder v-else :imageSrc="resultImage" /> -->
+                    <div class="flex flex-col w-8">
                     <div class="action-buttons">
                         <button @click="shareResult" class="border-2 rounded-lg mb-4">分享</button>
                         <button @click="downloadResult" class="border-2 rounded-lg">下载</button>
@@ -451,11 +469,22 @@ async function uploadImage3() {
 
             </div>
         </div>
-        <el-divider />
+        </div>
     </LandingContainer>
 </template>
 
 <style>
+
+.bgc{
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+}
+
 .gradient-button {
     padding: 10px 20px;
     font-size: 1.2rem;
@@ -468,15 +497,25 @@ async function uploadImage3() {
 
 .start-button {
     padding: 10px 20px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 5px;
-    background-image: linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%);
-    color: white;
-    transition: background-image 0.3s ease-in-out;
-    cursor: pointer;
+    margin-top: 30px;
+    color: #0b1624;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
+  .start-button:hover {
+    border-radius: 5px;
+    color: #fff;
+    background: #070636;
+    box-shadow: 0 0 5px 0 #070636,
+                0 0 25px 0 #070636,
+                0 0 25px 0 #070636,
+                0 0 25px 0 #070636;
+    transition: all 0.5s linear;
+  }
 
+  
 .gradient-button:hover {
     background-image: linear-gradient(to right, #ffcc00, #0066ff);
     /* 鼠标悬停时渐变颜色变化 */
@@ -494,7 +533,7 @@ async function uploadImage3() {
     width: 100%;
     height: 320px;
     /* 固定高度 */
-    background-color: #ddd;
+    background-color: #ffffff;
     /* 灰色底面 */
     display: flex;
     align-items: center;
@@ -502,6 +541,10 @@ async function uploadImage3() {
     overflow: hidden;
     border: 1px solid #ccc;
     cursor: pointer;
+
+        
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 .image-preview img {

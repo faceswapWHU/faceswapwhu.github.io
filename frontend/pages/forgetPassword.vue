@@ -109,65 +109,269 @@ async function sendCode() {
 </script>
 
 <template>
-    <UCard class=" w-full bg-white/75 dark:bg-white/5 backdrop-blur ">
-        <div class="min-h-screen flex items-center justify-center bg-gray-50 ">
-            <div class="max-w-md w-full space-y-8 border border-gray-300 p-6">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm">
-                        <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
-                            返回登录
-                        </a>
-                    </div>
-                </div>
-                <div></div>
-                <div>
-                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        忘记密码
-                    </h2>
-                </div>
-                <div class="mt-8 space-y-6">
-                    <div class="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label for="email" class="sr-only">邮箱</label>
-                            <input id="email" name="email" type="text" v-model="email" autocomplete="email" required
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300
-                                 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500
-                                  focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="邮箱" />
-                        </div>
-                        <div>
-                            <!-- 这里要写一句话，是“如果有邮箱的话可以直接发送验证码登录，如果没有绑定邮箱则要联系管理员” -->
-                        </div>
-                        <div class="flex w-full">
-                            <label for="code" class="sr-only">验证码</label>
-                            <input id="code" name="code" type="text" v-model="code" autocomplete="current-password"
-                                class="appearance-none rounded-none w-3/5 relative block px-3 py-2 border border-gray-300 
-                                placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 
-                                focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="验证码" />
-                            <button class="group relative w-2/5 flex justify-center py-2 px-4 border border-transparent 
-                                text-sm font-medium rounded-md text-white
-                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                :class="{
-                                  'bg-indigo-600 hover:bg-indigo-700': !isCountingDown,
-                                  'bg-indigo-300 cursor-not-allowed': isCountingDown
-                                }"
-                                @click="sendCode" :disabled="isCountingDown">
-                                <div v-if="isCountingDown"> {{ countdown }} 秒</div>
-                                <div v-else>发送验证码</div>
-                            </button>
-                        </div>  
-
-                    </div>
-
-                    <div class="mt-6 flex justify-between">
-                        <button type="button" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm 
-                            font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 
-                            focus:ring-offset-2 focus:ring-indigo-500" @click="onReSet">
-                            确定
-                        </button>
-
-                    </div>
-                </div>
-            </div>
+    <div class="bgc">
+      <div class="sbgc">
+    <div class="loginBox">
+      <div class="title">Retrieve Password</div>
+      <form>
+        <div class="item">
+          <input type="text" v-model="username" required />
+          <label for="email">Email</label>
         </div>
-    </UCard>
-</template>
+        <div class="item">
+          <input type="password" v-model="password" required style="width:55%;"/>
+          <label for="code">Verification Code</label>
+          <div style="display:block; width:35%;">
+          <button class="btn2" @click="sendCode" :disabled="isCountingDown">
+            <div v-if="isCountingDown"> {{ countdown }} 秒</div>
+            <div v-else>Send Code</div>
+          </button>
+        </div>
+        </div>
+        <div>
+        </div>
+        <div style="display:flex; justify-content:center;">
+        <button class="btn" @click="onReSet">Confirm
+        
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        </div>
+      </form>
+    </div>
+    <div class="links">
+      <div>
+       <a href="/" class="link">home</a>
+      </div>
+      <div>
+       <a href="/register" class="link">sign up</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  </template>
+  
+  <style scoped>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  input,
+  button {
+    background: transparent;
+    border: 0;
+    outline: none;
+  }
+  
+  .bgc {
+    height: 100vh;
+    background-color: #edecec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #03e9f4;
+    flex-direction: column;
+  }
+  .sbgc{
+      height: auto;
+      width: 60%;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 10px;
+      box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+  }
+  
+  .links{
+    margin-top: 50px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+  }
+  .link{
+    color: #070636;
+    padding: 5px;
+  }
+  .link:hover {
+    border-radius: 5px;
+    color: #ffffff;
+  
+    background: #0b1624;
+    box-shadow: 0 0 5px 0 #070636,
+                0 0 5px 0 #070636,
+                0 0 5px 0 #070636,
+                0 0 5px 0 #070636;
+  
+    transition: all 0.5s linear;
+  }
+  
+  .loginBox {
+    width: 400px;
+    height: 399px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 15px 25px 0 rgba(0, 0, 0, .6);
+    padding: 40px;
+    box-sizing: border-box;
+    margin-top: 70px;
+  }
+  
+  .title {
+    text-align: center;
+    color: #0b1624;
+    margin-bottom: 40px;
+    font-family: fantasy;
+    font-size:30px;
+  }
+  
+  .item {
+    height: 45px;
+    margin-bottom: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .item input {
+    width: 100%;
+    height: 100%;
+    color: #070636;
+    padding-top: 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #070636;
+  }
+  
+  .item input:focus + label,
+  .item input:valid + label {
+    top: 0px;
+    font-size: 12px; /* 修改为适合的字体大小 */
+  }
+  
+  .item label {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    transition: all 0.5s linear;
+    color: #0b1624;
+  }
+  
+  .btn2{
+    border-radius: 5px;
+    color: #ffffff;
+    width:100%;
+    height:100%;
+    background: #0b1624;
+  }
+
+  .btn2:hover{
+    border-radius: 5px;
+    color: #ffffff;
+  
+    background: #0b1624;
+    box-shadow: 0 0 10px 0 #070636,
+                0 0 10px 0 #070636,
+                0 0 10px 0 #070636,
+                0 0 10px 0 #070636;
+  
+    transition: all 0.5s linear;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: #0b1624;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .btn:hover {
+    border-radius: 5px;
+    color: #fff;
+    background: #070636;
+    box-shadow: 0 0 5px 0 #070636,
+                0 0 25px 0 #070636,
+                0 0 25px 0 #070636,
+                0 0 25px 0 #070636;
+    transition: all 0.7s linear;
+  }
+  
+  .btn > span {
+    position: absolute;
+  }
+  
+  .btn > span:nth-child(1) {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(left, transparent, #03e9f4);
+    left: -100%;
+    top: 0px;
+    animation: line1 1s linear infinite;
+  }
+  
+  @keyframes line1 {
+    50%, 100% {
+      left: 100%;
+    }
+  }
+  
+  .btn > span:nth-child(2) {
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(top, transparent, #03e9f4);
+    right: 0px;
+    top: -100%;
+    animation: line2 1s 0.25s linear infinite;
+  }
+  
+  @keyframes line2 {
+    50%, 100% {
+      top: 100%;
+    }
+  }
+  
+  .btn > span:nth-child(3) {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(left, #03e9f4, transparent);
+    left: 100%;
+    bottom: 0px;
+    animation: line3 1s 0.75s linear infinite;
+  }
+  
+  @keyframes line3 {
+    50%, 100% {
+      left: -100%;
+    }
+  }
+  
+  .btn > span:nth-child(4) {
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(top, transparent, #03e9f4);
+    left: 0px;
+    top: 100%;
+    animation: line4 1s 1s linear infinite;
+  }
+  
+  @keyframes line4 {
+    50%, 100% {
+      top: -100%;
+    }
+  }
+  
+  </style>
