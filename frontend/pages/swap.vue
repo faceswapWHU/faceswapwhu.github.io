@@ -140,7 +140,7 @@ async function startFaceSwap() {
             })
         } else {
             resultImage.value = data.image;
-            isFaceSwapped.value = false; // 换脸成功后设置为 true
+            // isFaceSwapped.value = false; // 换脸成功后设置为 true
         }
     } catch (error) {
         console.error('Failed to start face swap:', error);
@@ -427,7 +427,7 @@ async function uploadImage3() {
                     <Right />
                 </el-icon>
                 <!-- <landingImagePlaceHolder :imageSrc="resultImage" /> -->
-                 <div v-if ="isFaceSwapped && !image2 ">
+                 <div v-if ="!image2 ">
                     <TwoImgCompare :bottom-img="bottomImg" bottom-label="原图" :upper-img="upperImg" upper-label="结果图"></TwoImgCompare>
                 </div>
                 <div v-else>
