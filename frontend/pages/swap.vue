@@ -23,7 +23,7 @@ const Ref4 = ref<HTMLElement>()
 const Ref5 = ref<HTMLElement>()
 const Ref6 = ref<ButtonInstance>()
 const Ref7 = ref<ButtonInstance>()
-const open1 = ref(false);
+
 const upVideo = ref(true);
 
 const image1 = ref("");
@@ -311,20 +311,20 @@ async function uploadImage3() {
             <template v-slot:title>尝试换脸</template>
             <template v-slot:desc>{{ swapWhat ? hero2 : hero1 }} </template>
         </LandingSectionhead>
-        <div class="content-center w-full" style="text-align: center;">
-            <el-switch v-model="swapWhat" class="ml-2"
-                style="--el-switch-on-color: #000000; --el-switch-off-color: #babab1; " width="80px" size="large" />
-        </div>
 
-        <div v-if="swapWhat">
+        <div v-if="swapWhat" style="display:flex; align-items: center; flex-direction: column; width:100%; height:auto">    
+            <div class="uploadbg">
+            <div class="content-center w-full" style="display:flex; justify-content:space-between;">
 
-            <div class="button-container">
-                <el-button @click="open1 = true" class="start-button">
-                    怎么开始？
-                </el-button>
+                <el-switch v-model="swapWhat" class="ml-2"
+                    style="--el-switch-on-color: #070636; --el-switch-off-color: #070636; " width="60px" size="large" 
+                    active-text="视频" inactive-text="图片" inline-prompt/>
+                    <el-button link @click="open = true" class="gradient-button">
+                        怎么开始？
+                    </el-button>
             </div>
             
-            <el-tour v-model="open1">
+            <el-tour v-model="open">
                 <el-tour-step title="选择视频" description="点击此处选择或更改视频" placement="left" :target="Ref4" />
                 <el-tour-step title="上传视频" description="点击按钮上传视频！" placement="top" :target="Ref7?.$el" />
                 <el-tour-step title="上传图片" description="点击此处上传或更改图片" placement="right" :target="Ref5" />
@@ -332,7 +332,7 @@ async function uploadImage3() {
             </el-tour>
 
             <!-- 这里是上传视频 -->
-            <div class="flex gap-20 items-center mt-8 ml-12">
+            <div class="flex gap-10 items-center m-8">
                 <div class="video-upload flex flex-col items-center w-1/5 hover:scale-110" ref="Ref4">
                     <div class="image-preview" :class="{ 'empty-preview': !selectedFile }" @click="selectVideo()">
                         <img v-if="selectedFile" class="object-contain p-4" src="/right1.png" alt="Image 1" />
@@ -351,8 +351,16 @@ async function uploadImage3() {
                     <input type="file" @change="onImageUpload2($event)" accept="image/*" class="upload-button" />
                     <text class="my-2">换脸目标图片</text>
                 </div>
+                <div class="flex flex-col w-8">
+                    <div class="action-buttons">
+                        <button @click="shareResult" class="border-2 rounded-lg mb-4 hover:scale-110">分享</button>
+                        <button @click="downloadResultVideo" class="border-2 rounded-lg hover:scale-110">下载</button>
+                    </div>
+                </div>
+            </div>
+            </div>
                 <!-- 开始转换按钮 -->
-                <div class="button-container flex flex-col gap-2 items-left">
+                <div class="button-container gap-10">
                     <div>
                         <el-tooltip class="box-item" effect="dark" :content="selectedFile ? '点击上传！' : '请先添加视频'"
                             placement="top">
@@ -383,34 +391,31 @@ async function uploadImage3() {
                         </el-tooltip>
                     </div>
                 </div>
-
-
-                <div class="flex flex-col w-8">
-                    <div class="action-buttons">
-                        <button @click="shareResult" class="border-2 rounded-lg mb-4">分享</button>
-                        <button @click="downloadResultVideo" class="border-2 rounded-lg">下载</button>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div v-else>
-            <div class="button-container">
-                <el-button @click="open = true" class="start-button">
-                    怎么开始？
-                </el-button>
-            </div>
-            <el-tour v-model="open">
-                <el-tour-step title="上传源图片" description="点击此处上传或更改源图片(源图片是需要被替换面部的图片)" placement="left"
-                    :target="Ref1" />
-                <el-tour-step title="上传目的图片" description="点击此处上传或更改目的图片（目的图片是提供面部的图片）" placement="right"
-                    :target="Ref2" />
-                <el-tour-step title="开始转换" description="点击按钮开始转换！" placement="top" :target="Ref3?.$el" />
-            </el-tour>
+        <div v-else style="display:flex; align-items: center; flex-direction: column; width:100%; height:auto">
+            <div class='uploadbg'>
+                <div class="content-center w-full" style="display:flex; justify-content:space-between;">
+ 
+                    <el-switch v-model="swapWhat" class="ml-2"
+                        style="--el-switch-on-color: #babab1; --el-switch-off-color: #070636; " width="60px" size="large" 
+                        active-text="视频" inactive-text="图片" inline-prompt/>
+                        <el-button link @click="open = true" class="gradient-button">
+                            怎么开始？
+                        </el-button>
+                </div>
+
+                <el-tour v-model="open">
+                    <el-tour-step title="上传源图片" description="点击此处上传或更改源图片(源图片是需要被替换面部的图片)" placement="left"
+                        :target="Ref1" />
+                    <el-tour-step title="上传目的图片" description="点击此处上传或更改目的图片（目的图片是提供面部的图片）" placement="right"
+                        :target="Ref2" />
+                    <el-tour-step title="开始转换" description="点击按钮开始转换！" placement="top" :target="Ref3?.$el" />
+                </el-tour>
 
             <!-- 图片上传展示块容器 -->
-            <div class="flex gap-20 items-center mt-8 ml-12">
+            <div class="flex gap-10 items-center m-8">
                 <!-- 图片上传展示块 1 -->
-                <div class="image-upload-block w-1/5 hover:scale-110" ref="Ref1">
+                <div class="image-upload-block hover:scale-110" ref="Ref1">
                     <div class="image-preview" :class="{ 'empty-preview': !image1 }" @click="selectImage(1)">
                         <img v-if="image1" :src="image1" alt="Image 1" />
                     </div>
@@ -420,7 +425,7 @@ async function uploadImage3() {
                     <Plus />
                 </el-icon>
                 <!-- 图片上传展示块 2 -->
-                <div class="image-upload-block w-1/5 hover:scale-110" ref="Ref2">
+                <div class="image-upload-block hover:scale-110" ref="Ref2">
                     <div class="image-preview" :class="{ 'empty-preview': !image2 }" @click="selectImage(2)">
                         <img v-if="image2" :src="image2" alt="Image 2" />
                     </div>
@@ -430,22 +435,21 @@ async function uploadImage3() {
                     <Right />
                 </el-icon>
                 <!-- <landingImagePlaceHolder :imageSrc="resultImage" /> -->
-                 <div v-if ="!image2 ">
-                    <TwoImgCompare :bottom-img="bottomImg" bottom-label="原图" :upper-img="upperImg" upper-label="结果图"></TwoImgCompare>
-                </div>
-                <div v-else>
-                    <TwoImgCompare :bottom-img="image2" bottom-label="原图" :upper-img="resultImage" upper-label="结果图"></TwoImgCompare>
+                 <div >
+                    <TwoImgCompare v-if="!image2" :bottom-img="bottomImg" bottom-label="原图" :upper-img="upperImg" upper-label="结果图"></TwoImgCompare>
+        
+                    <TwoImgCompare v-else :bottom-img="image2" bottom-label="原图" :upper-img="resultImage" upper-label="结果图"></TwoImgCompare>
                 </div>
                 <!-- <landingImagePlaceHolder v-else :imageSrc="resultImage" /> -->
                     <div class="flex flex-col w-8">
                     <div class="action-buttons">
-                        <button @click="shareResult" class="border-2 rounded-lg mb-4">分享</button>
-                        <button @click="downloadResult" class="border-2 rounded-lg">下载</button>
+                        <button @click="shareResult" class="border-2 rounded-lg mb-4 hover:scale-110">分享</button>
+                        <button @click="downloadResult" class="border-2 rounded-lg hover:scale-110">下载</button>
                     </div>
                 </div>
 
             </div>
-
+            </div>
             <!-- 开始转换按钮 -->
             <div class="button-container">
                 <el-tooltip class="box-item" effect="dark" :content="image1 && image2 ? '点击换脸！' : '请先上传两张照片'"
@@ -479,28 +483,45 @@ async function uploadImage3() {
 <style>
 
 .bgc{
-    height: 100%;
+    height: 100vh;
     width: 100%;
     background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+}
 
+.uploadbg{
+    height: auto;
+    width: 90%;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
     padding: 10px;
+    margin-top:20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .gradient-button {
     padding: 10px 20px;
-    font-size: 1.2rem;
-    border: none;
-    color: white;
+    font-size: 1.0 rem;
+    color: #070636;
     cursor: pointer;
-    background-image: linear-gradient(to right, #ffff00, #0000ff);
-    transition: background-image 0.3s ease-in-out;
+}
+
+.gradient-button:hover {
+    color:#070636;
+    background: #ffffff;
+    text-shadow: #070636;
 }
 
 .start-button {
     padding: 10px 20px;
-    margin-top: 30px;
     color: #0b1624;
     position: relative;
     overflow: hidden;
@@ -509,32 +530,32 @@ async function uploadImage3() {
 }
   .start-button:hover {
     border-radius: 5px;
-    color: #fff;
-    background: #070636;
+    color: #070636;
+    background: #ffffff;
     box-shadow: 0 0 5px 0 #070636,
-                0 0 25px 0 #070636,
-                0 0 25px 0 #070636,
-                0 0 25px 0 #070636;
-    transition: all 0.5s linear;
+                0 0 5px 0 #070636,
+                0 0 5px 0 #070636,
+                0 0 5px 0 #070636;
+    transition: all 0.3 linear;
   }
 
   
-.gradient-button:hover {
-    background-image: linear-gradient(to right, #ffcc00, #0066ff);
-    /* 鼠标悬停时渐变颜色变化 */
-}
 
 .image-upload-block {
     position: relative;
+    width:200px;
+    height: 300px;
 }
 
 .video-upload {
     position: relative;
+    width:200px;
+    height:300px;
 }
 
 .image-preview {
     width: 100%;
-    height: 320px;
+    height: 100%;
     /* 固定高度 */
     background-color: #ffffff;
     /* 灰色底面 */
@@ -542,9 +563,8 @@ async function uploadImage3() {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid #070636;
     cursor: pointer;
-
         
     border-radius: 10px;
     box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
@@ -558,7 +578,7 @@ async function uploadImage3() {
 
 .empty-preview:before {
     content: '点击上传';
-    color: #888;
+    color: #070636;
     font-size: 1rem;
     text-align: center;
 }
@@ -574,14 +594,16 @@ async function uploadImage3() {
 }
 
 .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    margin-top: 20px;
+    padding-top:35px;
 }
 
 .start-button:disabled {
-    background-image: linear-gradient(to right, #ccc 0%, #ddd 0%, #eee 21%, #f9f9f9 52%, #e9e9e9 78%, #d9d9d9 100%);
-    /* 禁用时的渐变色背景 */
-    color: #888;
+
+    color: #070636;
     /* 禁用时按钮文字颜色 */
     cursor: not-allowed;
     /* 禁用时鼠标悬停不显示指针样式 */
