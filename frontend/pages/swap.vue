@@ -7,11 +7,11 @@ const { apiBaseUrl } = useApi();
 import { useAuthStore } from '~/composables/auth';
 
 import TwoImgCompare from "@/components/landing/integrate.vue";
-// const bottomImg = ref(new URL("@/assets/img/eg_old.jpg", import.meta.url).href); // 底图
-// const upperImg = ref(new URL("@/assets/img/eg_new.jpg", import.meta.url).href); // 上层图
+const bottomImg = ref(new URL("@/assets/img/eg_old.jpg", import.meta.url).href); // 底图
+const upperImg = ref(new URL("@/assets/img/eg_new.jpg", import.meta.url).href); // 上层图
 
-const bottomImg = "/eg_old.jpg"; // 底图
-const upperImg = "/eg_new.jpg"; // 上层图
+// const bottomImg = "/eg_old.jpg"; // 底图
+// const upperImg = "/eg_new.jpg"; // 上层图
 
 const authStore = useAuthStore();
 
