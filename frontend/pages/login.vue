@@ -32,7 +32,7 @@ const login = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ usernameOrEmail: username.value, password: password.value }),
+      body: JSON.stringify({ username: username.value, password: password.value }),
     });
     const result = await response.json();
     console.log(result);
@@ -64,16 +64,16 @@ const login = async () => {
     <form @submit.prevent="login">
       <div class="item">
         <input type="text" v-model="username" required />
-        <label for="">Username</label>
+        <label for="">用户名</label>
       </div>
       <div class="item">
         <input type="password" v-model="password" required />
-        <label for="">Password</label>
+        <label for="">密码</label>
       </div>
       <div>
       </div>
       <div style="display:flex; justify-content:center;">
-      <button class="btn" type="submit">Sign In
+      <button class="btn" type="submit">登陆
       
         <span></span>
         <span></span>
@@ -84,13 +84,13 @@ const login = async () => {
   </div>
   <div class="links">
     <div>
-     <a href="/" class="link">home</a>
+     <a href="/" class="link">返回主页</a>
     </div>
     <div>
-     <a href="/forgetPassword" class="link">forgotPassword</a>
+     <a href="/forgetPassword" class="link">忘记密码？</a>
     </div>
     <div>
-     <a href="/register" class="link">sign up</a>
+     <a href="/register" class="link">注册</a>
     </div>
   </div>
 </div>
