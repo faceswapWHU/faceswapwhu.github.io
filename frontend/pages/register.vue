@@ -13,7 +13,6 @@ const { apiBaseUrl } = useApi();
 
 
 const username = ref("")
-const email = ref("")
 const password = ref("")
 const repassword = ref("")
 
@@ -36,7 +35,7 @@ async function onReg(data: any) {
         return
     }
     try {
-        const regresponse = await fetch(apiBaseUrl.value + 'api/auth/register', {
+        const regresponse = await fetch(apiBaseUrl.value + 'auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,7 +43,6 @@ async function onReg(data: any) {
             },
             body: JSON.stringify({
                 username: username.value,
-                email: email.value,
                 password: password.value
             })
         });
@@ -160,11 +158,11 @@ const checkPass = () => {
               <input type="text" v-model="username" pattern="[a-zA-Z0-9]+" required />
               <label for="">Username</label>
             </div>
-            <div class="item">
+            <!-- <div class="item">
                 <input type="text" v-model="email" required />
                 <label for="">Email</label>
-            </div>
-            <div style="height: 35px;">
+            </div> -->
+            <div style="height: 25px;">
 
             </div>
             <div class="item">
