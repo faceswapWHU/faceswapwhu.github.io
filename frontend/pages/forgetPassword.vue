@@ -120,18 +120,18 @@ async function sendCode() {
         </div>
         <div class="item">
           <input type="password" v-model="password" required style="width:55%;"/>
-          <label for="code">Verification Code</label>
+          <label for="code">验证码</label>
           <div style="display:block; width:35%;">
           <button class="btn2" @click="sendCode" :disabled="isCountingDown">
             <div v-if="isCountingDown"> {{ countdown }} 秒</div>
-            <div v-else>Send Code</div>
+            <div v-else>发送</div>
           </button>
         </div>
         </div>
         <div>
         </div>
         <div style="display:flex; justify-content:center;">
-        <button class="btn" @click="onReSet">Confirm
+        <button class="btn" @click="onReSet">确认
         
           <span></span>
           <span></span>
@@ -142,10 +142,10 @@ async function sendCode() {
     </div>
     <div class="links">
       <div>
-       <a href="/" class="link">home</a>
+       <a href="/" class="link">返回主页</a>
       </div>
       <div>
-       <a href="/register" class="link">sign up</a>
+       <a href="/register" class="link">注册</a>
       </div>
     </div>
   </div>
