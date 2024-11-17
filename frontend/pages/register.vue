@@ -156,7 +156,7 @@ const checkPass = () => {
           <form @submit.prevent="onReg">
             <div class="item">
               <input type="text" v-model="username" pattern="[a-zA-Z0-9]+" required />
-              <label for="">Username</label>
+              <label for="">用户名</label>
             </div>
             <!-- <div class="item">
                 <input type="text" v-model="email" required />
@@ -167,14 +167,14 @@ const checkPass = () => {
             </div>
             <div class="item">
               <input type="password" v-model="password" required />
-              <label for="">Password</label>
+              <label for="">密码</label>
             </div>
             <div class="item">
                 <input type="password" v-model="repassword" required />
-                <label for="">Confirm</label>
+                <label for="">确认密码</label>
             </div>
             <div style="display: flex; justify-content:center;">
-            <button class="btn" type="submit">Sign Up
+            <button class="btn" type="submit">注册
             
               <span></span>
               <span></span>
@@ -185,10 +185,10 @@ const checkPass = () => {
         </div>
         <div class="links">
           <div>
-           <a href="/" class="link">home</a>
+           <a href="/" class="link">返回主页</a>
           </div>
           <div>
-           <a href="/login" class="link">sign in</a>
+           <a href="/login" class="link">登陆</a>
           </div>
         </div>
         </div>
