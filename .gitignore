@@ -29,5 +29,5 @@ backend/facefusion/facefusion/_pycache_
 backend/facefusion/facefusion/processors/_pycache_
 
 # model
-backend/facefusion/.assets/models
+backend/facefusion/.assets/
 

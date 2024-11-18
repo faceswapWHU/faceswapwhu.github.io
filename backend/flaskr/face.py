@@ -188,7 +188,7 @@ def gen_video():
         source_path = 'video_source.png' 
         target_path = f'../flaskr/video/user_{user_id}/src.mp4' 
         output_path = f'../flaskr/video/user_{user_id}/result.mp4'
-        command = f'python run.py -s {source_path} -t {target_path} -o {output_path} --headless' 
+        command = f'python facefusion.py headless-run -s {source_path} -t {target_path} -o {output_path} --skip-audio --execution-providers cuda' 
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=working_dir)
         stdout, stderr = process.communicate()
         
